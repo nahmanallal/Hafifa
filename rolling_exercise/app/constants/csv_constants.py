@@ -20,3 +20,6 @@ CSV_TO_INTERNAL_FIELDS = {
 }
 
 CSV_MISSING_COLUMNS_ERROR = "CSV file is missing required columns"
+INVALID_CSV_FILE_ERROR = "Invalid CSV file"
+INVALID_VALUES_ERROR = "Invalid values in CSV"
+EMPTY_CITY_ERROR = "City cannot be empty"

@@ -18,3 +18,5 @@ results.csv
 # OS
 .DS_Store
 Thumbs.db
+
+.env.test
