@@ -33,7 +33,7 @@ def parse_air_quality_csv(file_content: bytes) -> list[AirQualityRow]:
     _parse_numeric_columns(df)
 
     records = df.to_dict(orient="records")
-    logger.info("CSV parsed successfully: %d valid rows", len(records))
+    logger.info(f"CSV parsed successfully: {len(records)} valid rows")
 
     return [
         AirQualityRow(
