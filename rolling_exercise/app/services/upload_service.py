@@ -13,7 +13,7 @@ async def ingest_air_quality_csv(*, file_content: bytes, db: AsyncSession) -> in
     logger.info("Starting CSV ingestion...")
 
     rows = parse_air_quality_csv(file_content)
-    logger.info("CSV parsed successfully. %d rows found.", len(rows))
+    logger.info(f"CSV parsed successfully. {len(rows)} rows found.")
 
     try:
         for row in rows:
@@ -31,10 +31,10 @@ async def ingest_air_quality_csv(*, file_content: bytes, db: AsyncSession) -> in
             db.add(measurement)
 
         await db.commit()
-        logger.info("CSV ingestion completed. %d rows inserted.", len(rows))
+        logger.info(f"CSV ingestion completed. {len(rows)} rows inserted.")
         return len(rows)
 
     except SQLAlchemyError as exc:
-        logger.error("Database error during ingest: %s", exc)
+        logger.error(f"Database error during ingest: {exc}")
         await db.rollback()
         raise

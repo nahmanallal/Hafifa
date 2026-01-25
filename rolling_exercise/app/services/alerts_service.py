@@ -10,19 +10,21 @@ from app.core.logger import LOGGER_NAME
 
 logger = logging.getLogger(LOGGER_NAME)
 
-async def fetch_alerts(*, db: AsyncSession) -> list[AirQualityMeasurement]:
-    logger.info("Fetching alerts (threshold=%s)", settings.alert_aqi_threshold)
+async def fetch_alerts(*, session: AsyncSession) -> list[AirQualityMeasurement]:
+    logger.info(f"Fetching alerts (threshold={settings.alert_aqi_threshold})")
     stmt = select(AirQualityMeasurement).where(AirQualityMeasurement.aqi > settings.alert_aqi_threshold)
-    result = await db.execute(stmt)
+    result = await session.execute(stmt)
     rows = result.scalars().all()
-    logger.info("Alerts fetched: %d rows",len(rows))
+    logger.info(f"Alerts fetched: {len(rows)} rows")
+
     return rows
 
 
-async def fetch_alerts_by_city(*, db: AsyncSession, city: str) -> list[AirQualityMeasurement]:
-    logger.info("Fetching alerts for city=%s", city)
+async def fetch_alerts_by_city(*, session: AsyncSession, city: str) -> list[AirQualityMeasurement]:
+    logger.info(f"Fetching alerts for city={city}")
     stmt = select(AirQualityMeasurement).where(AirQualityMeasurement.aqi > settings.alert_aqi_threshold,AirQualityMeasurement.city == city,)
-    result = await db.execute(stmt)
+    result = await session.execute(stmt)
     rows = result.scalars().all()
-    logger.info("Alerts for city=%s: %d rows", city, len(rows))
+    logger.info(f"Alerts for city={city}:{len(rows)} rows")
+    
     return rows
